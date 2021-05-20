@@ -1,0 +1,13 @@
+Source: sps-portal
+Section: univention
+Priority: optional
+Maintainer: Univention GmbH <packages@univention.de>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.4.1
+Homepage: https://www.univention.de/
+
+Package: sps-portal
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <A paacke to configure the appearance of the portal for sps environments.>
+ <A paacke to configure the appearance of the portal for sps environments.>
