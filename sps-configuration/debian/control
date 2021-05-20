@@ -1,0 +1,13 @@
+Source: sps-configuration
+Section: univention
+Priority: optional
+Maintainer: Univention GmbH <packages@univention.de>
+Build-Depends: debhelper (>=10) 
+Standards-Version: 4.4.1
+Homepage: https://www.univention.de/
+
+Package: sps-configuration
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <This package provides specific configurations for sps environment.>
+ <iThis package provides specific configurations for sps environment.>
