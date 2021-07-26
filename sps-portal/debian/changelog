@@ -1,3 +1,9 @@
+sps-portal (1.0.1-1) unstable; urgency=medium
+
+  * Set portal background
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Mon, 26 Jul 2021 14:28:26 +0200
+
 sps-portal (1.0.0-1) unstable; urgency=medium
 
   * Initial release

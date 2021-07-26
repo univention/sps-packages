@@ -9,5 +9,5 @@ Homepage: https://www.univention.de/
 Package: sps-portal
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <A paacke to configure the appearance of the portal for sps environments.>
- <A paacke to configure the appearance of the portal for sps environments.>
+Description: portal for SPS environments
+ Configure the appearance and contents of the portal for SPS environments

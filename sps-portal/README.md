@@ -1,4 +1,4 @@
 # README for sps-portal
 
-The Links for `Mail, Kalender, Kontakte, Videokonferenzen, Online-Dateisynchronisation und -freigabe und Chat` are special settings for sps. 
-Also Cions are configured.
+- New entries for OX Mail/Contacts/Calendar and Nextcloud Spreed/Files, old ones are removed
+- As the background base64 value is too long to be processed by bash via `udm`, the file is provided and written directly via ldapmodify
