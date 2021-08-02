@@ -1,3 +1,9 @@
+sps-portal (1.1.0-1) unstable; urgency=medium
+
+  * Package all icons
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Mon, 02 Aug 2021 16:24:43 +0200
+
 sps-portal (1.0.1-2) unstable; urgency=medium
 
   * Update background image
