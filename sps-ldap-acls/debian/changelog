@@ -1,0 +1,5 @@
+sps-ldap-acls (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+
+ -- Stefan Gohmann <gohmann@univention.de>  Sun, 15 Aug 2021 07:19:59 +0200

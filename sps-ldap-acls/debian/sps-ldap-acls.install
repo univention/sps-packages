@@ -1,0 +1,2 @@
+ldap/*.acl usr/share/sps-ldap-acls
+98sps-ldap-acl.inst usr/lib/univention-install
