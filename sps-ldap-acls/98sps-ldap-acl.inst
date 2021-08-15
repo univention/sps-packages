@@ -1,0 +1,67 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+#
+# SPS LDAP ACL
+#  join script
+#
+# Copyright 2021 Univention GmbH
+#
+# https://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <https://www.gnu.org/licenses/>.
+
+## joinscript api: bindpwdfile
+
+VERSION=1
+
+. /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/ldap.sh
+
+joinscript_init
+
+eval "$(ucr shell ldap/base)"
+
+univention-directory-manager policies/umc create "$@" --ignore_exists \
+	--position "cn=UMC,cn=policies,$ldap_base" --set name="UserGroupAdmins" \
+	--append allow="cn=udm-users,cn=operations,cn=UMC,cn=univention,$ldap_base" \
+	--append allow="cn=udm-groups,cn=operations,cn=UMC,cn=univention,$ldap_base" \
+	--append allow="cn=udm-syntax,cn=operations,cn=UMC,cn=univention,$ldap_base" || die
+
+univention-directory-manager groups/group create "$@" --ignore_exists \
+	--position "cn=groups,$ldap_base" --set name="User Admins" \
+ 	--policy-reference "cn=UserGroupAdmins,cn=UMC,cn=policies,$ldap_base" || die
+
+univention-directory-manager users/user create "$@" --ignore_exists \
+	--set username=Admin --position "cn=users,$ldap_base" \
+	--set lastname="Admin" --set description="User and Group Admin" \
+	--set password="$(makepasswd --chars=32)" \
+	--append groups="cn=User Admins,cn=groups,$ldap_base" || die
+
+ucs_registerLDAPExtension "$@" \
+	--ucsversionstart "4.4-0" --ucsversionend "4.99-0" \
+	--acl /usr/share/sps-ldap-acls/66sps.acl || die
+
+joinscript_save_current_version
+
+exit 0

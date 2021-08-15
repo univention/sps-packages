@@ -1,0 +1,16 @@
+Source: sps-ldap-acls
+Section: univention
+Priority: optional
+Maintainer: Univention GmbH <packages@univention.de>
+Build-Depends: debhelper (>= 10), univention-debhelper
+Standards-Version: 4.4.1
+Homepage: https://www.univention.de/
+
+Package: sps-ldap-acls
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: LDAP ACLs for an SPS based installation
+ This packages creates the group User Admins. The members
+ of this group are allowed to administrate users and groups.
+ A default user admin who is member of the group User Admins
+ is also created by default.

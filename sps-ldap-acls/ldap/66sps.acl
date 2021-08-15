@@ -1,0 +1,58 @@
+@!@
+from univention.lib.misc import custom_groupname, custom_username
+
+params = {}
+params['ldap_base'] = configRegistry['ldap/base']
+params['usr'] = 'write' if configRegistry.get('ldap/server/type') == "master" else 'read'
+params['domainadmins'] = custom_groupname('Domain Admins')
+params['administrator'] = custom_username('Administrator')
+params['krbtgt'] = 'uid=krbtgt,cn=users,%s' % params['ldap_base']
+params['useradmins'] = 'cn=User Admins,cn=groups,%s' % params['ldap_base']
+params['userattrs'] = 'cn,objectClass,!univentionShare,!univentionShareNFS,!univentionShareSamba,!posixGroup'
+params['groupattrs'] = 'cn,objectClass,description,!univentionShare,!univentionShareNFS,!univentionShareSamba,!posixAccount,!SambaSamAccount'
+
+
+print('''
+# SPS LDAP ACLs
+
+access to dn.regex="^cn=([^,]+),cn=(mailPrimaryAddress|groupName|sid|gid|gidNumber|uidNumber|uid),cn=temporary,cn=univention,%(ldap_base)s$$" filter="objectClass=lock" attrs="entry,@univentionObject,@lock"
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+access to dn.regex="^cn=(mailPrimaryAddress|groupName|sid|gid|gidNumber|uidNumber|uid),cn=temporary,cn=univention,%(ldap_base)s" attrs=children,entry
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+access to dn.base="cn=gidNumber,cn=temporary,cn=univention,%(ldap_base)s" attrs=univentionLastUsedValue
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+access to dn.base="cn=uidNumber,cn=temporary,cn=univention,%(ldap_base)s" attrs=univentionLastUsedValue
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+access to dn.base="cn=%(domainadmins)s,cn=groups,%(ldap_base)s" attrs=%(groupattrs)s
+        by set="user & [%(useradmins)s]/uniqueMember*" none
+        by * +0 break
+access to dn.base="uid=%(administrator)s,cn=users,%(ldap_base)s" attrs=%(userattrs)s
+        by set="user & [%(useradmins)s]/uniqueMember*" none
+        by * +0 break
+access to dn.base="%(krbtgt)s" attrs=%(userattrs)s
+        by set="user & [%(useradmins)s]/uniqueMember*" none
+        by * +0 break
+
+access to dn.regex="^cn=(users|groups),%(ldap_base)s$$" attrs=children,entry
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+access to dn.regex="^cn=([^,]+),cn=groups,%(ldap_base)s$$" filter="(univentionObjectType=groups/group)" attrs=entry,%(groupattrs)s
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+access to dn.regex="^uid=([^,]+),cn=users,%(ldap_base)s$$" filter="(univentionObjectType=users/user)" attrs=entry,%(userattrs)s
+        by set="user & [%(useradmins)s]/uniqueMember*" %(usr)s
+        by * +0 break
+
+''' % params)
+
+@!@
+
