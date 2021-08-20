@@ -1,0 +1,13 @@
+Source: sps-branding
+Section: univention
+Priority: optional
+Maintainer: Univention GmbH <packages@univention.de>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.4.1
+Homepage: https://www.univention.de/
+
+Package: sps-branding
+Architecture: all
+Depends: open-xchange-dynamic-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: branding for SPS environments
+ Configure the appearance of OX, nextcloud and UCS for SPS environments

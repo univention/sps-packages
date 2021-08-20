@@ -1,0 +1,4 @@
+css/login/custom.css usr/share/univention-management-console-login/css
+css/portal/custom.css usr/share/univention-portal
+img/SPS_Logo.png /usr/share/univention-sps
+img/SPS_Logo.png var/www/univention/portal/custom
