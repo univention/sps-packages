@@ -1,6 +1,12 @@
+sps-branding (1.0.1-1) unstable; urgency=medium
+
+  * Set ox theme via UCR
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Fri, 27 Aug 2021 13:19:47 +0200
+
 sps-branding (1.0.0-1) unstable; urgency=medium
 
-  * fix: portal custom.css does not break sps-portal background anymore 
+  * fix: portal custom.css does not break sps-portal background anymore
 
  -- Timo Hollwedel <hollwedel@univention.de>  Fri, 20 Aug 2021 15:28:12 +0200
 

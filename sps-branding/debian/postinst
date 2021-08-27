@@ -41,7 +41,7 @@ univention-app info | grep nextcloud > /dev/null
 if [ $? -eq 0 ]; then
 	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config color "#F2F2F2"
 	nextcloud_docker_id=$(docker ps -a | grep 'nextcloud' -m 1 | awk '{ print $1 }')
-	docker cp /usr/share/univention-sps/SPS_Logo.png $nextcloud_docker_id:/var/www/html/themes/
+	docker cp /usr/share/univention-sps/SPS_Logo.png "$nextcloud_docker_id":/var/www/html/themes/
 	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config logo "/var/www/html/themes/SPS_Logo.png"
 fi
 
@@ -52,13 +52,13 @@ univention-app info | grep oxseforucs > /dev/null
 if [ $? -eq 0 ]; then
 	cp /usr/share/univention-sps/SPS_Logo.png /var/www/appsuite/
 	echo "Setting OX maincolor..."
-	sed -i "s|io.ox/dynamic-theme//mainColor=.*|io.ox/dynamic-theme//mainColor=#F2F2F2|g" /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
+	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//mainColor=#666666
 	echo "Setting OX topbarbackground..."
-	sed -i "s|io.ox/dynamic-theme//topbarBackground=.*|io.ox/dynamic-theme//topbarBackground=#F2F2F2|g" /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
+	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//topbarBackground=#666666
 	echo "Setting OX logo..."
-	sed -i "s|io.ox/dynamic-theme//logoWidth=.*|io.ox/dynamic-theme//logoWidth=48|g" /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
-	sed -i "s|io.ox/dynamic-theme//logoHeight=.*|io.ox/dynamic-theme//logoHeight=Auto|g" /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
-	sed -i "s|io.ox/dynamic-theme//logoURL=.*|io.ox/dynamic-theme//logoURL=SPS_Logo.png|g" /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
+	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoWidth=48
+	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoHeight=Auto
+	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoURL=SPS_Logo.png
 	echo "com.openexchange.capability.dynamic-theme=true" >> /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
 fi
 
