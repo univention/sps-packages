@@ -1,3 +1,9 @@
+sps-portal (1.2.0-2) unstable; urgency=medium
+
+  * Add self service entry
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Fri, 27 Aug 2021 12:19:41 +0200
+
 sps-portal (1.2.0-1) unstable; urgency=medium
 
   * Migrate to Preview Portal

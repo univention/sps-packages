@@ -62,6 +62,9 @@ ldapmodify -x -D "cn=admin,$base" -y /etc/ldap.secret -f "$tempfile"
 /usr/sbin/udm portals/entry modify --dn "cn=umc-domain,cn=entry,cn=portals,cn=univention,$base" \
 	--set icon="$(encode /usr/share/univention-sps/icons/udm.png)"
 
+/usr/sbin/udm portals/entry modify --dn "cn=self-service,cn=entry,cn=portals,cn=univention,$base" \
+	--set icon="$(encode /usr/share/univention-sps/icons/selfservice.png)"
+
 /usr/sbin/udm portals/entry create --ignore_exists \
 	--position "cn=entry,cn=portals,cn=univention,$base" \
 	--set name="mail" \
@@ -113,11 +116,17 @@ ldapmodify -x -D "cn=admin,$base" -y /etc/ldap.secret -f "$tempfile"
 	--set icon="$(encode /usr/share/univention-sps/icons/files.png)"
 
 /usr/sbin/udm portals/category modify --dn "cn=domain-service,cn=category,cn=portals,cn=univention,$base" \
+	--remove entries
+
+/usr/sbin/udm portals/category modify --dn "cn=domain-service,cn=category,cn=portals,cn=univention,$base" \
 	--append entries="cn=mail,cn=entry,cn=portals,cn=univention,$base" \
 	--append entries="cn=addressbook,cn=entry,cn=portals,cn=univention,$base" \
 	--append entries="cn=calendar,cn=entry,cn=portals,cn=univention,$base" \
 	--append entries="cn=talk,cn=entry,cn=portals,cn=univention,$base" \
 	--append entries="cn=files,cn=entry,cn=portals,cn=univention,$base"
+
+/usr/sbin/udm portals/category modify --dn "cn=domain-admin,cn=category,cn=portals,cn=univention,$base" \
+	--append entries="cn=self-service,cn=entry,cn=portals,cn=univention,$base"
 
 /usr/sbin/udm portals/portal modify --dn "cn=domain,cn=portal,cn=portals,cn=univention,$base" \
 	--remove categories
