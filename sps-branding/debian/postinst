@@ -39,7 +39,7 @@
 univention-app info | grep nextcloud > /dev/null
 
 if [ $? -eq 0 ]; then
-	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config color "#F2F2F2"
+	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config color "#666666"
 	nextcloud_docker_id=$(docker ps -a | grep 'nextcloud' -m 1 | awk '{ print $1 }')
 	docker cp /usr/share/univention-sps/SPS_Logo.png "$nextcloud_docker_id":/var/www/html/themes/
 	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config logo "/var/www/html/themes/SPS_Logo.png"

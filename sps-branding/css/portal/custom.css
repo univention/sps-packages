@@ -3,7 +3,7 @@ This file contains the most important id's and classes of the Univention portal 
  */
 
 html, body.umc {
-	background-color: #f2f2f2 !important;
+	background-color: #666666 !important;
 }
 
 .umc {
@@ -20,6 +20,7 @@ html, body.umc {
 
 /* (div) Container for the entire header*/
 #umcHeader {
+	background: #666666 !important;
 }
 
 #portalLogoWrapper:before {
