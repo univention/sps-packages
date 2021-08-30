@@ -1,3 +1,9 @@
+sps-ldap-acls (1.0.0-2) unstable; urgency=medium
+
+  * Remove deprecated build dep
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Mon, 30 Aug 2021 11:15:53 +0200
+
 sps-ldap-acls (1.0.0-1) unstable; urgency=medium
 
   * Initial release

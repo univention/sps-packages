@@ -2,7 +2,7 @@ Source: sps-ldap-acls
 Section: univention
 Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
-Build-Depends: debhelper (>= 10), univention-debhelper
+Build-Depends: debhelper (>= 10)
 Standards-Version: 4.4.1
 Homepage: https://www.univention.de/
 
