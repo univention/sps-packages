@@ -1,0 +1,147 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+#
+# SPS Portal
+#  join script
+#
+# Copyright 2021 Univention GmbH
+#
+# https://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <https://www.gnu.org/licenses/>.
+
+## joinscript api: bindpwdfile
+
+VERSION=1
+
+. /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/ldap.sh
+
+joinscript_init
+
+eval "$(ucr shell ldap/base)"
+
+univention-directory-manager portals/portal remove "$@" --ignore_not_exists --dn "cn=local,cn=portal,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/category remove "$@" --ignore_not_exists --dn "cn=local-admin,cn=category,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/category remove "$@" --ignore_not_exists --dn "cn=local-service,cn=category,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/entry remove "$@" --ignore_not_exists --dn "cn=ucs-local-to-domain,cn=entry,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/entry remove "$@" --ignore_not_exists --dn "cn=umc-local,cn=entry,cn=portals,cn=univention,$ldap_base"
+
+univention-directory-manager portals/entry remove "$@" --ignore_not_exists --dn "cn=univentionblog,cn=entry,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/entry remove "$@" --ignore_not_exists --dn "cn=ox_app_suite_login,cn=entry,cn=portals,cn=univention,$ldap_base"
+univention-directory-manager portals/entry remove "$@" --ignore_not_exists --dn "cn=nextcloud,cn=entry,cn=portals,cn=univention,$ldap_base"
+
+encode () {
+	base64 "$1" | tr -d '\n'
+}
+
+tempfile=$(mktemp)
+cat <<__EOT >"$tempfile"
+dn: cn=domain,cn=portal,cn=portals,cn=univention,$ldap_base
+changetype: modify
+replace: univentionNewPortalBackground
+univentionNewPortalBackground: $(encode /usr/share/univention-sps/background.png)
+__EOT
+
+ldapmodify "$@" -x -D "cn=admin,$ldap_base" -y /etc/ldap.secret -f "$tempfile"
+
+univention-directory-manager portals/entry modify "$@" --dn "cn=umc-domain,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set icon="$(encode /usr/share/univention-sps/icons/udm.png)"
+
+univention-directory-manager portals/entry modify "$@" --dn "cn=self-service,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set icon="$(encode /usr/share/univention-sps/icons/selfservice.png)"
+
+univention-directory-manager portals/entry create "$@" --ignore_exists \
+	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set name="mail" \
+	--set link="/appsuite/#!!&app=io.ox/mail" \
+	--append description="de_DE Mail" \
+	--append description="en_US Mail" \
+	--append displayName="de_DE Mail" \
+	--append displayName="en_US Mail" \
+	--set icon="$(encode /usr/share/univention-sps/icons/mail.png)"
+
+univention-directory-manager portals/entry create "$@" --ignore_exists \
+	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set name="addressbook" \
+	--set link="/appsuite/#!!&app=io.ox/contacts" \
+	--append description='de_DE "Zugriff auf das persönliche Adressbuch"' \
+	--append description="en_US Contacts" \
+	--append displayName="de_DE Adressbuch" \
+	--append displayName='en_US "Address Book"' \
+	--set icon="$(encode /usr/share/univention-sps/icons/address-book.png)"
+
+univention-directory-manager portals/entry create "$@" --ignore_exists \
+	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set name="calendar" \
+	--set link="/appsuite/#!!&app=io.ox/calendar" \
+	--append description='de_DE "Zugriff auf den persönlichen Kalender"' \
+	--append description="en_US Calendar" \
+	--append displayName="de_DE Kalender" \
+	--append displayName="en_US Calendar" \
+	--set icon="$(encode /usr/share/univention-sps/icons/calendar.png)"
+
+univention-directory-manager portals/entry create "$@" --ignore_exists \
+	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set name="talk" \
+	--set link="/nextcloud/apps/spreed/" \
+	--append description='de_DE "Zugang zu Videokonferenzen und Chat"' \
+	--append description='en_US "Video Conferencing and Chat"' \
+	--append displayName="de_DE Talk" \
+	--append displayName="en_US Talk" \
+	--set icon="$(encode /usr/share/univention-sps/icons/talk.png)"
+
+univention-directory-manager portals/entry create "$@" --ignore_exists \
+	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--set name="files" \
+	--set link="/nextcloud/apps/files/" \
+	--append description='de_DE "Zugriff auf die Dateisynchronisation und freigabe"' \
+	--append description='en_US "File Share and Synchronisation"' \
+	--append displayName="de_DE Dateien" \
+	--append displayName="en_US Files" \
+	--set icon="$(encode /usr/share/univention-sps/icons/files.png)"
+
+univention-directory-manager portals/category modify "$@" --dn "cn=domain-service,cn=category,cn=portals,cn=univention,$ldap_base" \
+	--remove entries
+
+univention-directory-manager portals/category modify "$@" --dn "cn=domain-service,cn=category,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=mail,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=addressbook,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=calendar,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=talk,cn=entry,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=files,cn=entry,cn=portals,cn=univention,$ldap_base"
+
+univention-directory-manager portals/category modify "$@" --dn "cn=domain-admin,cn=category,cn=portals,cn=univention,$ldap_base" \
+	--append entries="cn=self-service,cn=entry,cn=portals,cn=univention,$ldap_base"
+
+univention-directory-manager portals/portal modify "$@" --dn "cn=domain,cn=portal,cn=portals,cn=univention,$ldap_base" \
+	--remove categories
+
+univention-directory-manager portals/portal modify "$@" --dn "cn=domain,cn=portal,cn=portals,cn=univention,$ldap_base" \
+	--append categories="cn=domain-service,cn=category,cn=portals,cn=univention,$ldap_base" \
+	--append categories="cn=domain-admin,cn=category,cn=portals,cn=univention,$ldap_base"
+
+joinscript_save_current_version
+
+exit 0

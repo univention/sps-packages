@@ -1,2 +1,3 @@
 background.png /usr/share/univention-sps
 icons /usr/share/univention-sps
+98sps-portal.inst usr/lib/univention-install
