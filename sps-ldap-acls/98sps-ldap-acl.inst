@@ -50,10 +50,10 @@ univention-directory-manager policies/umc create "$@" --ignore_exists \
 
 univention-directory-manager groups/group create "$@" --ignore_exists \
 	--position "cn=groups,$ldap_base" --set name="User Admins" \
- 	--policy-reference "cn=UserGroupAdmins,cn=UMC,cn=policies,$ldap_base" || die
+	--policy-reference "cn=UserGroupAdmins,cn=UMC,cn=policies,$ldap_base" || die
 
 univention-directory-manager users/user create "$@" --ignore_exists \
-	--set username=Admin --position "cn=users,$ldap_base" \
+	--set username=User.Admin --position "cn=users,$ldap_base" \
 	--set lastname="Admin" --set description="User and Group Admin" \
 	--set password="$(makepasswd --chars=32)" \
 	--append groups="cn=User Admins,cn=groups,$ldap_base" || die
