@@ -33,7 +33,7 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=1
+VERSION=2
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/ldap.sh
@@ -80,7 +80,8 @@ univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--append description="en_US Mail" \
 	--append displayName="de_DE Mail" \
 	--append displayName="en_US Mail" \
-	--set icon="$(encode /usr/share/univention-sps/icons/mail.png)"
+	--set icon="$(encode /usr/share/univention-sps/icons/mail.png)" \
+	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
 
 univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
@@ -90,7 +91,8 @@ univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--append description="en_US Contacts" \
 	--append displayName="de_DE Adressbuch" \
 	--append displayName='en_US "Address Book"' \
-	--set icon="$(encode /usr/share/univention-sps/icons/address-book.png)"
+	--set icon="$(encode /usr/share/univention-sps/icons/address-book.png)" \
+	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
 
 univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
@@ -100,7 +102,8 @@ univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--append description="en_US Calendar" \
 	--append displayName="de_DE Kalender" \
 	--append displayName="en_US Calendar" \
-	--set icon="$(encode /usr/share/univention-sps/icons/calendar.png)"
+	--set icon="$(encode /usr/share/univention-sps/icons/calendar.png)" \
+	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
 
 univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
@@ -110,7 +113,8 @@ univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--append description='en_US "Video Conferencing and Chat"' \
 	--append displayName="de_DE Talk" \
 	--append displayName="en_US Talk" \
-	--set icon="$(encode /usr/share/univention-sps/icons/talk.png)"
+	--set icon="$(encode /usr/share/univention-sps/icons/talk.png)" \
+	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
 
 univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--position "cn=entry,cn=portals,cn=univention,$ldap_base" \
@@ -120,7 +124,8 @@ univention-directory-manager portals/entry create "$@" --ignore_exists \
 	--append description='en_US "File Share and Synchronisation"' \
 	--append displayName="de_DE Dateien" \
 	--append displayName="en_US Files" \
-	--set icon="$(encode /usr/share/univention-sps/icons/files.png)"
+	--set icon="$(encode /usr/share/univention-sps/icons/files.png)" \
+	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
 
 univention-directory-manager portals/category modify "$@" --dn "cn=domain-service,cn=category,cn=portals,cn=univention,$ldap_base" \
 	--remove entries

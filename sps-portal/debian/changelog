@@ -1,3 +1,9 @@
+sps-portal (1.3.1-1) unstable; urgency=medium
+
+  * Hide entries when not logged in
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Tue, 31 Aug 2021 16:48:17 +0200
+
 sps-portal (1.3.0-1) unstable; urgency=medium
 
   * Change Portal via joinscript
