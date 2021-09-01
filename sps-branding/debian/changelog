@@ -1,3 +1,9 @@
+sps-branding (1.0.2-2) unstable; urgency=medium
+
+  * Do not check if app is installed prior to changing settings
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Wed, 01 Sep 2021 09:01:27 +0200
+
 sps-branding (1.0.2-1) unstable; urgency=medium
 
   * Change main color to #666666

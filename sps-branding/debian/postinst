@@ -36,36 +36,28 @@
 
 # Nextcloud
 
-univention-app info | grep nextcloud > /dev/null
-
-if [ $? -eq 0 ]; then
-	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config color "#666666"
-	nextcloud_docker_id=$(docker ps -a | grep 'nextcloud' -m 1 | awk '{ print $1 }')
-	docker cp /usr/share/univention-sps/SPS_Logo.png "$nextcloud_docker_id":/var/www/html/themes/
-	/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config logo "/var/www/html/themes/SPS_Logo.png"
-fi
+/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config color "#666666"
+nextcloud_docker_id=$(docker ps -a | grep 'nextcloud' -m 1 | awk '{ print $1 }')
+docker cp /usr/share/univention-sps/SPS_Logo.png "$nextcloud_docker_id":/var/www/html/themes/
+/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config logo "/var/www/html/themes/SPS_Logo.png"
 
 # Open-Xchange
 
-univention-app info | grep oxseforucs > /dev/null
-
-if [ $? -eq 0 ]; then
-	cp /usr/share/univention-sps/SPS_Logo.png /var/www/appsuite/
-	echo "Setting OX maincolor..."
-	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//mainColor=#666666
-	echo "Setting OX topbarbackground..."
-	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//topbarBackground=#666666
-	echo "Setting OX logo..."
-	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoWidth=48
-	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoHeight=Auto
-	/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoURL=SPS_Logo.png
-	echo "com.openexchange.capability.dynamic-theme=true" >> /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
-fi
+cp /usr/share/univention-sps/SPS_Logo.png /var/www/appsuite/
+echo "Setting OX maincolor..."
+/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//mainColor=#666666
+echo "Setting OX topbarbackground..."
+/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//topbarBackground=#666666
+echo "Setting OX logo..."
+/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoWidth=48
+/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoHeight=Auto
+/usr/sbin/univention-config-registry set ox/cfg/settings/open-xchange-dynamic-theme.properties/io.ox/dynamic-theme//logoURL=SPS_Logo.png
+echo "com.openexchange.capability.dynamic-theme=true" >> /opt/open-xchange/etc/settings/open-xchange-dynamic-theme.properties
 
 # restart all services affected by changes
 echo "Restarting services..."
-service docker-app-nextcloud restart
-service open-xchange restart
+/usr/bin/univention-app restart nextcloud
+/usr/bin/univention-app restart oxseforucs
 service univention-portal-server restart
 
 exit 0
