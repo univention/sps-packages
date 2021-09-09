@@ -1,11 +1,11 @@
 stages:
-  - test
-  - build
-  - staging
-  - deploy
+  - gather_facts
+  # - test
+  # - build
+  # - staging
+  # - deploy
 
 variables:
-  PACKAGE: sps-FIXME
   UCS_VERSION: "448"
   UCS_RELEASE: "4.4"
   BRANCH: "4.4"
@@ -23,6 +23,20 @@ variables:
   GIT_DEPTH: "3"
   IMPORT_HOST: "omar.knut.univention.de"
   BUILD_HOST: "dimma.knut.univention.de"
+
+get_changed_packages:
+  stage: gather_facts
+  script:
+    - echo PACKAGES="$(git diff-tree --no-commit-id --name-only -r $CI_COMMIT_SHA | grep "sps-*/*" | cut -d '/' -f 1 | sort -u | tr '\n' ' ')" > $CI_PROJECT_DIR/variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+print_packages:
+  stage: gather_facts
+  script:
+    - echo $PACKAGES
+    - for PACKAGE in $PACKAGES; do echo pkg $PACKAGE; done
 
 run_ucslint:
   stage: test
