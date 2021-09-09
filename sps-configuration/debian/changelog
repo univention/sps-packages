@@ -1,5 +1,11 @@
+sps-configuration (1.0.1-1) unstable; urgency=medium
+
+  * Move to join script
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Thu, 09 Sep 2021 15:42:33 +0200
+
 sps-configuration (1.0.0-1) unstable; urgency=medium
 
-  * Initial release 
+  * Initial release
 
  -- Tim Breidenbach <packages@univention.de>  Thu, 20 May 2021 18:20:36 +0200

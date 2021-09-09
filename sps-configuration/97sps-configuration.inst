@@ -1,26 +1,26 @@
 #!/bin/sh
-# postinst script for sps-configuration
+# -*- coding: utf-8 -*-
 #
-# see: dh_installdeb(1)
+# SPS Configuration
+#  join script
 #
-# Copyright (C) 2021 Univention GmbH
+# Copyright 2021 Univention GmbH
 #
-# http://www.univention.de/
+# https://www.univention.de/
 #
 # All rights reserved.
 #
-# The source code of the software contained in this package
-# as well as the source package itself are made available
+# The source code of this program is made available
 # under the terms of the GNU Affero General Public License version 3
 # (GNU AGPL V3) as published by the Free Software Foundation.
 #
-# Binary versions of this package provided by Univention to you as
+# Binary versions of this program provided by Univention to you as
 # well as other copyrighted, protected or trademarked materials like
 # Logos, graphics, fonts, specific documentations and configurations,
 # cryptographic keys etc. are subject to a license agreement between
 # you and Univention and not subject to the GNU AGPL V3.
 #
-# In the case you use the software under the terms of the GNU AGPL V3,
+# In the case you use this program under the terms of the GNU AGPL V3,
 # the program is provided in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -29,12 +29,21 @@
 # You should have received a copy of the GNU Affero General Public
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
-# <http://www.gnu.org/licenses/>.
+# <https://www.gnu.org/licenses/>.
 
+## joinscript api: bindpwdfile
 
-#DEBHELPER#
+VERSION=1
 
-. /usr/share/univention-lib/base.sh
-call_joinscript 97sps-configuration.inst
+. /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/ldap.sh
+
+joinscript_init
+
+eval "$(univention-config-registry shell)"
+
+univention-config-registry set repository/app_center/blacklist="zimbra,egroupware,riot,horde,jitsimeet,kopano-core,kopano-meet,kopano-webapp,kopano-webmeetings,owncloud,rocketchat,seafile,synapse,z-push-kopano,stashcat"
+
+joinscript_save_current_version
 
 exit 0
