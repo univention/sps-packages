@@ -33,14 +33,14 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=3
+VERSION=4
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/ldap.sh
 
 joinscript_init
 
-eval "$(ucr shell ldap/base)"
+eval "$(univention-config-registry shell)"
 
 univention-directory-manager portals/portal remove "$@" --ignore_not_exists --dn "cn=local,cn=portal,cn=portals,cn=univention,$ldap_base"
 univention-directory-manager portals/category remove "$@" --ignore_not_exists --dn "cn=local-admin,cn=category,cn=portals,cn=univention,$ldap_base"
