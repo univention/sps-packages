@@ -33,7 +33,7 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=1
+VERSION=2
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/ldap.sh
@@ -43,6 +43,9 @@ joinscript_init
 eval "$(univention-config-registry shell)"
 
 univention-config-registry set repository/app_center/blacklist="zimbra,egroupware,riot,horde,jitsimeet,kopano-core,kopano-meet,kopano-webapp,kopano-webmeetings,owncloud,rocketchat,seafile,synapse,z-push-kopano,stashcat"
+
+univention-directory-manager settings/usertemplate modify "$@" --ignore_not_exists --dn "cn=Groupware-Benutzer,cn=templates,cn=univention,$ldap_base" \
+	--set name=SPS
 
 joinscript_save_current_version
 
