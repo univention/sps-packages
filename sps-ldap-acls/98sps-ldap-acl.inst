@@ -33,7 +33,7 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=1
+VERSION=2
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/ldap.sh
@@ -51,12 +51,6 @@ univention-directory-manager policies/umc create "$@" --ignore_exists \
 univention-directory-manager groups/group create "$@" --ignore_exists \
 	--position "cn=groups,$ldap_base" --set name="User Admins" \
 	--policy-reference "cn=UserGroupAdmins,cn=UMC,cn=policies,$ldap_base" || die
-
-univention-directory-manager users/user create "$@" --ignore_exists \
-	--set username=User.Admin --position "cn=users,$ldap_base" \
-	--set lastname="Admin" --set description="User and Group Admin" \
-	--set password="$(makepasswd --chars=32)" \
-	--append groups="cn=User Admins,cn=groups,$ldap_base" || die
 
 ucs_registerLDAPExtension "$@" \
 	--ucsversionstart "4.4-0" --ucsversionend "4.99-0" \

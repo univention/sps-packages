@@ -1,3 +1,9 @@
+sps-ldap-acls (1.0.1-1) unstable; urgency=medium
+
+  * Remove User.Admin from package (done via Ansible instead) #5
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Tue, 28 Sep 2021 13:55:46 +0200
+
 sps-ldap-acls (1.0.0-3) unstable; urgency=medium
 
   * Rename User.Admin
