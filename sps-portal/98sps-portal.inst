@@ -33,7 +33,7 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=4
+VERSION=5
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/ldap.sh
@@ -68,7 +68,7 @@ ldapmodify "$@" -x -D "cn=admin,$ldap_base" -y /etc/ldap.secret -f "$tempfile"
 
 univention-directory-manager portals/entry modify "$@" --dn "cn=umc-domain,cn=entry,cn=portals,cn=univention,$ldap_base" \
 	--set icon="$(encode /usr/share/univention-sps/icons/udm.png)" \
-	--append allowedGroups="cn=Domain Users,cn=groups,$ldap_base"
+	--append allowedGroups="cn=Domain Admins,cn=groups,$ldap_base"
 
 univention-directory-manager portals/entry modify "$@" --dn "cn=self-service,cn=entry,cn=portals,cn=univention,$ldap_base" \
 	--set icon="$(encode /usr/share/univention-sps/icons/selfservice.png)" \
