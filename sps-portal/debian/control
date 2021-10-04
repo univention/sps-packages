@@ -10,6 +10,7 @@ Package: sps-portal
 Architecture: all
 Depends:
  univention-portal,
+ sps-ldap-acls,
  ${shlibs:Depends},
  ${misc:Depends}
 Description: portal for SPS environments
