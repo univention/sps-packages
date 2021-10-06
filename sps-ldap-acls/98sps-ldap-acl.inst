@@ -33,14 +33,15 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION=3
+VERSION=4
 
 . /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/base.sh
 . /usr/share/univention-lib/ldap.sh
 
 joinscript_init
 
-eval "$(ucr shell ldap/base)"
+eval "$(ucr shell ldap/base hostname domainname)"
 
 univention-directory-manager policies/umc create "$@" --ignore_exists \
 	--position "cn=UMC,cn=policies,$ldap_base" --set name="UserGroupAdmins" \
