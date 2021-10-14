@@ -1,3 +1,9 @@
+sps-ldap-acls (1.0.2-1) unstable; urgency=medium
+
+  * Allow usage of user templates for user admins
+
+ -- Jan-Luca Kiok <kiok@univention.de>  Thu, 14 Oct 2021 15:52:15 +0200
+
 sps-ldap-acls (1.0.1-3) unstable; urgency=medium
 
   * Source vars for mail address
