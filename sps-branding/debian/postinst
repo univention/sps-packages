@@ -40,6 +40,7 @@
 nextcloud_docker_id=$(docker ps -a | grep 'nextcloud' -m 1 | awk '{ print $1 }')
 docker cp /usr/share/univention-sps/SPS_Logo.png "$nextcloud_docker_id":/var/www/html/themes/
 /usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ theming:config logo "/var/www/html/themes/SPS_Logo.png"
+/usr/bin/univention-app shell nextcloud sudo -u www-data php /var/www/html/occ config:app:set theming backgroundMime --value backgroundColor
 
 # Open-Xchange
 
